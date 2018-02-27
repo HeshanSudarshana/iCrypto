@@ -5,10 +5,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 
 public class main_form extends JFrame {
     private JTabbedPane tabbedPane;
@@ -29,6 +27,9 @@ public class main_form extends JFrame {
     private Encrypter encrypter;
     private Decrypter decrypter;
     private FileReader fileReader;
+    private ArrayList<String> encryptedLines = new ArrayList<>();
+    private ArrayList<String> decryptedLines = new ArrayList<>();
+    private FileWriter fileWriter;
 
     public main_form() throws HeadlessException {
 
@@ -77,7 +78,8 @@ public class main_form extends JFrame {
                     String line = null;
                     BufferedReader bufferedReader = new BufferedReader(fileReader);
                     while((line = bufferedReader.readLine()) != null) {
-                        System.out.println(line);
+                        encryptedLines.add(encrypter.encrypt(line));
+                        System.out.println(encrypter.encrypt(line));
                     }
                     bufferedReader.close();
                 } catch (FileNotFoundException e1) {
@@ -85,12 +87,59 @@ public class main_form extends JFrame {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                try {
+                    fileWriter = new FileWriter(encryptPathTxt.getText());
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    encryptedLines.forEach((i) -> {
+                        try {
+                            bufferedWriter.write(i);
+                            bufferedWriter.newLine();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    });
+                    bufferedWriter.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                encryptKeyTxt.setText(encrypter.generateKey());
+                JOptionPane.showMessageDialog(null, "Encryption Successfully!");
             }
         });
         decryptBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                decrypter = new Decrypter();
+                decrypter = new Decrypter(decryptKeyTxt.getText());
+                try {
+                    fileReader = new FileReader(decryptPathTxt.getText());
+                    String line = null;
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    while((line = bufferedReader.readLine()) != null) {
+                        decryptedLines.add(decrypter.decrypt(line));
+                        System.out.println(decrypter.decrypt(line));
+                    }
+                    bufferedReader.close();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                try {
+                    fileWriter = new FileWriter(decryptPathTxt.getText());
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    decryptedLines.forEach((i) -> {
+                        try {
+                            bufferedWriter.write(i);
+                            bufferedWriter.newLine();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    });
+                    bufferedWriter.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                JOptionPane.showMessageDialog(null, "Decryption Successfully!");
             }
         });
     }

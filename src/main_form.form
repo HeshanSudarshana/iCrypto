@@ -162,8 +162,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <editable value="false"/>
-                  <enabled value="false"/>
+                  <editable value="true"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="78abd" class="javax.swing.JButton" binding="decryptBtn">

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="iCrypto:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/iCrypto_jar</output-path>
+    <root id="archive" name="iCrypto.jar">
+      <element id="module-output" name="iCrypto" />
+    </root>
+  </artifact>
+</component>
