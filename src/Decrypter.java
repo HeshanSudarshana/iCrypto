@@ -11,14 +11,17 @@ public class Decrypter {
         this.key = key;
         char [] keyCharArr = key.toCharArray();
         if (((int)keyCharArr[0] - 65)< 32) {
-            shiftingAmount = 126 - ((int)keyCharArr[0] - 65);
+            shiftingAmount = 126 - (32-((int)keyCharArr[0] - 65));
+        } else {
+            shiftingAmount = ((int) keyCharArr[0]) - 65;
         }
-        shiftingAmount = ((int) keyCharArr[0]) - 65;
         permutationSize = ((int) keyCharArr[1]) - 65;
         order = new int[permutationSize];
         for (int i=0; i<permutationSize; i++) {
             order[i] = ((int) keyCharArr[2+i]) - 65;
         }
+        System.out.println(shiftingAmount);
+        System.out.println(permutationSize);
     }
 
     public String decrypt(String text) {
@@ -31,11 +34,11 @@ public class Decrypter {
         char [] decryptedCharArr = new char[encryptedCharArr.length];
         char [] tempPermutationArr = new char[permutationSize];
 
-//        System.out.println(permutationSize);
-//        for(int i=0; i<order.length; i++) {
-//            System.out.print(order[i] + " ");
-//        }
-//        System.out.println();
+        System.out.println(permutationSize);
+        for(int i=0; i<order.length; i++) {
+            System.out.print(order[i] + " ");
+        }
+        System.out.println();
 
 
         for (int i=0; i<encryptedCharArr.length; i++) {

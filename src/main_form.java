@@ -79,7 +79,6 @@ public class main_form extends JFrame {
                     BufferedReader bufferedReader = new BufferedReader(fileReader);
                     while((line = bufferedReader.readLine()) != null) {
                         encryptedLines.add(encrypter.encrypt(line));
-                        System.out.println(encrypter.encrypt(line));
                     }
                     bufferedReader.close();
                 } catch (FileNotFoundException e1) {
@@ -116,7 +115,6 @@ public class main_form extends JFrame {
                     BufferedReader bufferedReader = new BufferedReader(fileReader);
                     while((line = bufferedReader.readLine()) != null) {
                         decryptedLines.add(decrypter.decrypt(line));
-                        System.out.println(decrypter.decrypt(line));
                     }
                     bufferedReader.close();
                 } catch (FileNotFoundException e1) {
